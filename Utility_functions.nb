@@ -1,0 +1,632 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 12.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     22816,        624]
+NotebookOptionsPosition[     22329,        609]
+NotebookOutlinePosition[     22674,        624]
+CellTagsIndexPosition[     22631,        621]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[TextData[StyleBox[" [ \
+==============================================================================\
+================= ] \n [ Author: M\[AAcute]rton Pet\[ODoubleDot]              \
+                                                               ] \n [ Date: \
+05.07.2023                                                                    \
+            ] \n [ Affiliation: Otto von Guericke University Magdeburg, \
+Germany                                    ] \n [ \
+------------------------------------------------------------------------------\
+----------------- ] \n [ This Mathematica notebook is a supplementary file \
+for the examples provided in the article      ] \[LineSeparator] [            \
+                                                                              \
+       ] \[LineSeparator] [ CODE VERIFICATION OF IMMERSED BOUNDARY TECHNIQUES \
+USING THE METHOD OF MANUFACTURED SOLUTIONS    ] \n [ Authors: M. Pet\
+\[ODoubleDot], M. Gorji, F. Duvigneau, A. D\[UDoubleDot]ster, D. Juhre, S. \
+Eisentr\[ADoubleDot]ger                   ] \n [ Journal: Computational \
+Mechanics                                                                ] \n \
+[                                                                             \
+                    ] \n [ \
+------------------------------------------------------------------------------\
+----------------- ] \n [ Note 1: When using the methods or results provided \
+in the paper and supplementary material,     ] \n [ please cite our work \
+accordingly.                                                               ] \
+\n [ -------------------------------------------------------------------------\
+---------------------- ] \n [ Note 2: In this notebook, the necessary \
+functions related the strain, stress and body load      ] \n [ computations \
+are defined based on various coordinate systems and problem dimensions. The   \
+     ] \n [ notebook also contains functions related to computation of the \
+strain energy density and        ] \n [ conversion between different material \
+parameter.                                                ] \n [ It is \
+necessary to load the content of this file before running the other notebooks \
+defining    ] \n [ the manufactured solutions.                                \
+                                     ] \n [ \
+==============================================================================\
+================= ] ",
+ FontFamily->"Courier New",
+ FontWeight->"Bold",
+ FontColor->RGBColor[0., 0.3411764705882353, 0.5098039215686274],
+ Background->RGBColor[
+  0.9176470588235294, 0.9176470588235294, 0.9176470588235294]]], "Text",
+ CellChangeTimes->{{3.891081893061697*^9, 3.8910821307075295`*^9}, {
+  3.8975511403288827`*^9, 3.8975511493789706`*^9}, {3.8976329731835856`*^9, 
+  3.897632977760178*^9}},ExpressionUUID->"a1fa84eb-bf45-4839-b7d6-\
+bd390571985e"],
+
+Cell[BoxData[
+ RowBox[{"ClearAll", "[", "\"\<Global`*\>\"", "]"}]], "Input",
+ CellChangeTimes->{3.8910766614952087`*^9},
+ CellLabel->
+  "In[1283]:=",ExpressionUUID->"97a8c627-8d3d-489c-84b9-10dc8c7489db"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{"--", 
+     RowBox[{"--", 
+      RowBox[{"--", 
+       RowBox[{"--", 
+        RowBox[{"--", 
+         RowBox[{"--", 
+          RowBox[{"--", 
+           RowBox[{"--", 
+            RowBox[{"--", 
+             RowBox[{"--", 
+              RowBox[{"--", 
+               RowBox[{"--", " ", "CARTESIAN"}]}]}]}]}]}]}]}]}]}]}]}], " ", 
+    "COORDINATES", " ", 
+    RowBox[{
+     RowBox[{
+      RowBox[{
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{"2", "D"}], ")"}], " ", "--"}], "--"}], "--"}], "--"}], 
+    RowBox[{"--", 
+     RowBox[{"--", 
+      RowBox[{"--", 
+       RowBox[{"--", 
+        RowBox[{"--", 
+         RowBox[{"--", 
+          RowBox[{"--", 
+           RowBox[{"--", "-"}]}]}]}]}]}]}]}]}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{
+     RowBox[{"StrainTensorCartesian2D", "[", "u_", "]"}], ":=", 
+     RowBox[{"(", "\[IndentingNewLine]", 
+      RowBox[{"Module", "[", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"nablau", ",", "F", ",", "epsilon"}], "}"}], ",", 
+        "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"nablau", " ", "=", 
+          RowBox[{"Grad", "[", 
+           RowBox[{"u", ",", 
+            RowBox[{"{", 
+             RowBox[{"x", ",", "y"}], "}"}]}], "]"}]}], ";", 
+         "\[IndentingNewLine]", 
+         RowBox[{"F", " ", "=", " ", 
+          RowBox[{
+           RowBox[{"IdentityMatrix", "[", "2", "]"}], "+", "nablau"}]}], ";", 
+         "\[IndentingNewLine]", 
+         RowBox[{"epsilon", " ", "=", " ", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"1", "/", "2"}], 
+            RowBox[{"(", 
+             RowBox[{"F", "+", 
+              RowBox[{"Transpose", "[", "F", "]"}]}], ")"}]}], "-", 
+           RowBox[{"IdentityMatrix", "[", "2", "]"}]}]}]}]}], 
+       "\[IndentingNewLine]", "]"}], "\[IndentingNewLine]", ")"}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"StressTensorCartesian2D", "[", 
+      RowBox[{"epsilon_", ",", "E_", ",", "nu_"}], "]"}], ":=", 
+     RowBox[{"(", "\[IndentingNewLine]", 
+      RowBox[{"(*", 
+       RowBox[{
+       "Plane", " ", "stress", " ", "state", " ", "is", " ", "assumed"}], " ",
+        "*)"}], "\[IndentingNewLine]", 
+      RowBox[{"Module", "[", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{
+         "sigma11", ",", "sigma12", ",", "sigma21", ",", "sigma22", ",", 
+          "sigma"}], "}"}], ",", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"sigma11", " ", "=", " ", 
+          RowBox[{
+           RowBox[{"E", "/", 
+            RowBox[{"(", 
+             RowBox[{"1", "-", 
+              RowBox[{"nu", "^", "2"}]}], ")"}]}], "*", 
+           RowBox[{"(", 
+            RowBox[{
+             RowBox[{"epsilon", "[", 
+              RowBox[{"[", 
+               RowBox[{"1", ",", "1"}], "]"}], "]"}], "+", 
+             RowBox[{"nu", "*", 
+              RowBox[{"epsilon", "[", 
+               RowBox[{"[", 
+                RowBox[{"2", ",", "2"}], "]"}], "]"}]}]}], ")"}]}]}], ";", 
+         "\[IndentingNewLine]", 
+         RowBox[{"sigma12", " ", "=", " ", 
+          RowBox[{
+           RowBox[{"E", "/", 
+            RowBox[{"(", 
+             RowBox[{"1", "+", "nu"}], ")"}]}], "*", 
+           RowBox[{"epsilon", "[", 
+            RowBox[{"[", 
+             RowBox[{"1", ",", "2"}], "]"}], "]"}]}]}], ";", 
+         "\[IndentingNewLine]", 
+         RowBox[{"sigma21", " ", "=", " ", "sigma12"}], ";", 
+         "\[IndentingNewLine]", 
+         RowBox[{"sigma22", " ", "=", " ", 
+          RowBox[{
+           RowBox[{"E", "/", 
+            RowBox[{"(", 
+             RowBox[{"1", "-", 
+              RowBox[{"nu", "^", "2"}]}], ")"}]}], "*", 
+           RowBox[{"(", 
+            RowBox[{
+             RowBox[{"epsilon", "[", 
+              RowBox[{"[", 
+               RowBox[{"2", ",", "2"}], "]"}], "]"}], "+", 
+             RowBox[{"nu", "*", 
+              RowBox[{"epsilon", "[", 
+               RowBox[{"[", 
+                RowBox[{"1", ",", "1"}], "]"}], "]"}]}]}], ")"}]}]}], ";", 
+         "\[IndentingNewLine]", 
+         RowBox[{"sigma", "=", 
+          RowBox[{"(", "\[NoBreak]", GridBox[{
+             {"sigma11", "sigma12"},
+             {"sigma21", "sigma22"}
+            }], "\[NoBreak]", ")"}]}]}]}], "]"}], ")"}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"--", 
+       RowBox[{"--", 
+        RowBox[{"--", 
+         RowBox[{"--", 
+          RowBox[{"--", 
+           RowBox[{"--", 
+            RowBox[{"--", 
+             RowBox[{"--", 
+              RowBox[{"--", 
+               RowBox[{"--", 
+                RowBox[{"--", 
+                 RowBox[{"--", 
+                  RowBox[{"-", " ", "CYLINDRICAL"}]}]}]}]}]}]}]}]}]}]}]}]}], 
+      " ", "COORDINATES", " ", 
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{"2", "D"}], ")"}], " ", "--"}], "--"}], "--"}], "--"}]}], 
+     "-", 
+     RowBox[{"--", 
+      RowBox[{"--", 
+       RowBox[{"-", 
+        RowBox[{"-", 
+         RowBox[{"--", 
+          RowBox[{"--", 
+           RowBox[{"--", "--"}]}]}]}]}]}]}]}], " ", "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "For", " ", "the", " ", "operations", " ", "below", " ", "are", " ", 
+     "suitable", " ", "for", " ", "problems", " ", "where", " ", "the", " ", 
+     "displacement", " ", "the", " ", "cylindircal"}], " ", "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{
+     "displacement", " ", "field", " ", "only", " ", "has", " ", "a", " ", 
+      "radial", " ", "component"}], ";", " ", 
+     RowBox[{
+     "every", " ", "other", " ", "component", " ", "is", " ", "zero"}]}], 
+    "             ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"StrainTensorRadialDispField2D", "[", "u_", "]"}], ":=", 
+     RowBox[{"(", "\[NoBreak]", GridBox[{
+        {
+         RowBox[{"D", "[", 
+          RowBox[{
+           RowBox[{"u", "[", 
+            RowBox[{"[", "1", "]"}], "]"}], ",", "r"}], "]"}], "0"},
+        {"0", 
+         RowBox[{
+          RowBox[{"u", "[", 
+           RowBox[{"[", "1", "]"}], "]"}], "/", "r"}]}
+       }], "\[NoBreak]", ")"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"StressTensorRadialDispField2D", "[", 
+      RowBox[{"epsilon_", ",", "E_", ",", "nu_"}], "]"}], ":=", 
+     RowBox[{"(", "\[IndentingNewLine]", 
+      RowBox[{"(*", 
+       RowBox[{
+       "Plane", " ", "stress", " ", "state", " ", "is", " ", "assumed"}], " ",
+        "*)"}], "\[IndentingNewLine]", 
+      RowBox[{"Module", "[", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"sigma11", ",", "sigma22", ",", "sigma"}], "}"}], ",", 
+        "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"sigma11", " ", "=", " ", 
+          RowBox[{
+           RowBox[{"E", "/", 
+            RowBox[{"(", 
+             RowBox[{"1", "-", 
+              RowBox[{"nu", "^", "2"}]}], ")"}]}], "*", 
+           RowBox[{"(", 
+            RowBox[{
+             RowBox[{"epsilon", "[", 
+              RowBox[{"[", 
+               RowBox[{"1", ",", "1"}], "]"}], "]"}], "+", 
+             RowBox[{"nu", "*", 
+              RowBox[{"epsilon", "[", 
+               RowBox[{"[", 
+                RowBox[{"2", ",", "2"}], "]"}], "]"}]}]}], ")"}]}]}], ";", 
+         "\[IndentingNewLine]", 
+         RowBox[{"sigma22", " ", "=", " ", 
+          RowBox[{
+           RowBox[{"E", "/", 
+            RowBox[{"(", 
+             RowBox[{"1", "-", 
+              RowBox[{"nu", "^", "2"}]}], ")"}]}], "*", 
+           RowBox[{"(", 
+            RowBox[{
+             RowBox[{"epsilon", "[", 
+              RowBox[{"[", 
+               RowBox[{"2", ",", "2"}], "]"}], "]"}], "+", 
+             RowBox[{"nu", "*", 
+              RowBox[{"epsilon", "[", 
+               RowBox[{"[", 
+                RowBox[{"1", ",", "1"}], "]"}], "]"}]}]}], ")"}]}]}], ";", 
+         "\[IndentingNewLine]", 
+         RowBox[{"sigma", "=", 
+          RowBox[{"(", "\[NoBreak]", GridBox[{
+             {"sigma11", "0"},
+             {"0", "sigma22"}
+            }], "\[NoBreak]", ")"}]}]}]}], "]"}], "\[IndentingNewLine]", 
+      ")"}]}], ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"StressDivRadialDispField2D", "[", "sigma_", "]"}], ":=", 
+     RowBox[{
+      RowBox[{"D", "[", 
+       RowBox[{
+        RowBox[{"sigma", "[", 
+         RowBox[{"[", 
+          RowBox[{"1", ",", "1"}], "]"}], "]"}], ",", "r"}], "]"}], "+", 
+      RowBox[{
+       RowBox[{"1", "/", "r"}], "*", 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"sigma", "[", 
+          RowBox[{"[", 
+           RowBox[{"1", ",", "1"}], "]"}], "]"}], "-", 
+         RowBox[{"sigma", "[", 
+          RowBox[{"[", 
+           RowBox[{"2", ",", "2"}], "]"}], "]"}]}], ")"}]}]}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{"--", 
+      RowBox[{"--", 
+       RowBox[{"--", 
+        RowBox[{"--", 
+         RowBox[{"--", 
+          RowBox[{"--", 
+           RowBox[{"--", 
+            RowBox[{"--", 
+             RowBox[{"--", 
+              RowBox[{"-", 
+               RowBox[{"--", 
+                RowBox[{"--", 
+                 RowBox[{"-", " ", "SPHERICAL"}]}]}]}]}]}]}]}]}]}]}]}]}], " ",
+      "COORDINATES", " ", 
+     RowBox[{
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         RowBox[{
+          RowBox[{
+           RowBox[{
+            RowBox[{
+             RowBox[{
+              RowBox[{
+               RowBox[{
+                RowBox[{
+                 RowBox[{
+                  RowBox[{"(", 
+                   RowBox[{"3", "D"}], ")"}], " ", "--"}], "--"}], "--"}], 
+               "--"}], "--"}], "--"}], "--"}], "--"}], "--"}], "--"}], "--"}],
+        "--"}], "--"}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "For", " ", "the", " ", "operations", " ", "below", " ", "are", " ", 
+     "suitable", " ", "for", " ", "problems", " ", "where", " ", "the", " ", 
+     "displacement", " ", "the", " ", "spherical"}], " ", "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{
+     "displacement", " ", "field", " ", "only", " ", "has", " ", "a", " ", 
+      "radial", " ", "component"}], ";", " ", 
+     RowBox[{
+     "every", " ", "other", " ", "component", " ", "is", " ", "zero"}]}], 
+    "           ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"StrainTensorRadialDispField3D", "[", "u_", "]"}], ":=", 
+     RowBox[{"(", "\[NoBreak]\[NoBreak]", GridBox[{
+        {
+         RowBox[{"D", "[", 
+          RowBox[{
+           RowBox[{"u", "[", 
+            RowBox[{"[", "1", "]"}], "]"}], ",", "r"}], "]"}], "0", "0"},
+        {"0", 
+         RowBox[{
+          RowBox[{"u", "[", 
+           RowBox[{"[", "1", "]"}], "]"}], "/", "r"}], "0"},
+        {"0", "0", 
+         RowBox[{
+          RowBox[{"u", "[", 
+           RowBox[{"[", "1", "]"}], "]"}], "/", "r"}]}
+       }], "\[NoBreak]", ")"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"StressTensorRadialDispField3D", "[", 
+      RowBox[{"epsilon_", ",", "lambda_", ",", "mu_"}], "]"}], ":=", 
+     RowBox[{"(", "\[IndentingNewLine]", 
+      RowBox[{"Module", "[", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"sigma11", ",", "sigma22", ",", "sigma33", ",", "sigma"}], 
+         "}"}], ",", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"sigma11", " ", "=", " ", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"(", 
+             RowBox[{"lambda", "+", 
+              RowBox[{"2", "mu"}]}], ")"}], "*", 
+            RowBox[{"epsilon", "[", 
+             RowBox[{"[", 
+              RowBox[{"1", ",", "1"}], "]"}], "]"}]}], "+", 
+           RowBox[{"lambda", "*", 
+            RowBox[{"epsilon", "[", 
+             RowBox[{"[", 
+              RowBox[{"2", ",", "2"}], "]"}], "]"}]}], "+", 
+           RowBox[{"lambda", "*", 
+            RowBox[{"epsilon", "[", 
+             RowBox[{"[", 
+              RowBox[{"3", ",", "3"}], "]"}], "]"}]}]}]}], ";", 
+         "\[IndentingNewLine]", 
+         RowBox[{"sigma22", " ", "=", " ", 
+          RowBox[{
+           RowBox[{"lambda", "*", 
+            RowBox[{"epsilon", "[", 
+             RowBox[{"[", 
+              RowBox[{"1", ",", "1"}], "]"}], "]"}]}], "+", 
+           RowBox[{
+            RowBox[{"(", 
+             RowBox[{"lambda", "+", 
+              RowBox[{"2", "mu"}]}], ")"}], "*", 
+            RowBox[{"epsilon", "[", 
+             RowBox[{"[", 
+              RowBox[{"2", ",", "2"}], "]"}], "]"}]}], "+", 
+           RowBox[{"lambda", "*", 
+            RowBox[{"epsilon", "[", 
+             RowBox[{"[", 
+              RowBox[{"3", ",", "3"}], "]"}], "]"}]}]}]}], ";", 
+         "\[IndentingNewLine]", 
+         RowBox[{"sigma33", " ", "=", " ", 
+          RowBox[{
+           RowBox[{"lambda", "*", 
+            RowBox[{"epsilon", "[", 
+             RowBox[{"[", 
+              RowBox[{"1", ",", "1"}], "]"}], "]"}]}], "+", 
+           RowBox[{"lambda", "*", 
+            RowBox[{"epsilon", "[", 
+             RowBox[{"[", 
+              RowBox[{"2", ",", "2"}], "]"}], "]"}]}], "+", 
+           RowBox[{
+            RowBox[{"(", 
+             RowBox[{"lambda", "+", 
+              RowBox[{"2", "mu"}]}], ")"}], "*", 
+            RowBox[{"epsilon", "[", 
+             RowBox[{"[", 
+              RowBox[{"3", ",", "3"}], "]"}], "]"}]}]}]}], ";", 
+         "\[IndentingNewLine]", 
+         RowBox[{"sigma", "=", 
+          RowBox[{"(", "\[NoBreak]", GridBox[{
+             {"sigma11", "0", "0"},
+             {"0", "sigma22", "0"},
+             {"0", "0", "sigma33"}
+            }], "\[NoBreak]", ")"}]}]}]}], "]"}], ")"}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"StressDivRadialDispField3D", "[", "sigma_", "]"}], ":=", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"1", "/", 
+        RowBox[{"(", 
+         RowBox[{"r", "^", "2"}], ")"}]}], "*", 
+       RowBox[{"D", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"r", "^", "2"}], "*", 
+          RowBox[{"sigma", "[", 
+           RowBox[{"[", 
+            RowBox[{"1", ",", "1"}], "]"}], "]"}]}], ",", "r"}], "]"}]}], " ",
+       "-", " ", 
+      RowBox[{
+       RowBox[{"1", "/", "r"}], "*", 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"sigma", "[", 
+          RowBox[{"[", 
+           RowBox[{"2", ",", "2"}], "]"}], "]"}], "+", 
+         RowBox[{"sigma", "[", 
+          RowBox[{"[", 
+           RowBox[{"3", ",", "3"}], "]"}], "]"}]}], ")"}]}]}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"--", 
+       RowBox[{"--", 
+        RowBox[{"--", 
+         RowBox[{"--", 
+          RowBox[{"--", 
+           RowBox[{"--", 
+            RowBox[{"--", 
+             RowBox[{"--", 
+              RowBox[{"--", 
+               RowBox[{"-", 
+                RowBox[{"--", 
+                 RowBox[{"--", 
+                  RowBox[{"--", 
+                   RowBox[{"--", 
+                    RowBox[{"-", "TRAIN"}]}]}]}]}]}]}]}]}]}]}]}]}]}]}], " ", 
+      "ENERGY", " ", 
+      RowBox[{
+       RowBox[{"DENSITY", " ", "--"}], "--"}]}], "-", 
+     RowBox[{"--", 
+      RowBox[{"-", 
+       RowBox[{"--", 
+        RowBox[{"--", 
+         RowBox[{"--", 
+          RowBox[{"--", 
+           RowBox[{"--", 
+            RowBox[{"--", 
+             RowBox[{"--", 
+              RowBox[{"--", 
+               RowBox[{"--", 
+                RowBox[{"--", "--"}]}]}]}]}]}]}]}]}]}]}]}]}], " ", "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"StrainEnergyDensity", "[", 
+      RowBox[{"sigma_", ",", "epsilon_"}], "]"}], ":=", " ", 
+     RowBox[{
+      RowBox[{"1", "/", "2"}], 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"Flatten", "[", "sigma", "]"}], ".", 
+        RowBox[{"Flatten", "[", "epsilon", "]"}]}], ")"}]}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{"--", 
+      RowBox[{"--", 
+       RowBox[{"--", 
+        RowBox[{"--", 
+         RowBox[{"--", 
+          RowBox[{"--", 
+           RowBox[{"--", 
+            RowBox[{"--", 
+             RowBox[{"--", 
+              RowBox[{"--", 
+               RowBox[{"--", 
+                RowBox[{"--", 
+                 RowBox[{"-", " ", "CONVERT"}]}]}]}]}]}]}]}]}]}]}]}]}], " ", 
+     "MATERIAL", " ", 
+     RowBox[{
+      RowBox[{
+       RowBox[{
+        RowBox[{"PARAMETERS", " ", "--"}], "--"}], "--"}], "--"}], 
+     RowBox[{"--", 
+      RowBox[{"--", 
+       RowBox[{"--", 
+        RowBox[{"--", 
+         RowBox[{"--", 
+          RowBox[{"--", 
+           RowBox[{"--", 
+            RowBox[{"--", "--"}]}]}]}]}]}]}]}]}], " ", "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"Enu2lambda", "[", 
+      RowBox[{"E_", ",", "nu_"}], "]"}], ":=", 
+     RowBox[{"E", "*", 
+      RowBox[{"nu", "/", 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"(", 
+          RowBox[{"1", "+", "nu"}], ")"}], "*", 
+         RowBox[{"(", 
+          RowBox[{"1", "-", 
+           RowBox[{"2", "*", "nu"}]}], ")"}]}], ")"}]}]}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"Enu2mu", "[", 
+      RowBox[{"E_", ",", "nu_"}], "]"}], ":=", 
+     RowBox[{"E", "/", 
+      RowBox[{"(", 
+       RowBox[{"2", "*", 
+        RowBox[{"(", 
+         RowBox[{"1", "+", "nu"}], ")"}]}], ")"}]}]}], ";"}]}]}]], "Input",
+ CellChangeTimes->{{3.890381367133896*^9, 3.890381398175038*^9}, {
+  3.89038170700708*^9, 3.8903817395986924`*^9}, {3.8903823148776073`*^9, 
+  3.890382354978563*^9}, {3.8903848728902545`*^9, 3.890384873116452*^9}, {
+  3.8903862127741156`*^9, 3.890386248462687*^9}, {3.890467360541303*^9, 
+  3.8904674865263357`*^9}, {3.8904675507686934`*^9, 3.8904676617531238`*^9}, {
+  3.890467693310277*^9, 3.8904676985322957`*^9}, {3.890469307770582*^9, 
+  3.8904693624562387`*^9}, {3.890469415054988*^9, 3.8904695540631213`*^9}, {
+  3.890476343381961*^9, 3.8904763990920925`*^9}, {3.8904774636449385`*^9, 
+  3.8904774915971537`*^9}, {3.891076649101488*^9, 3.891076653813859*^9}, {
+  3.891076867772576*^9, 3.891076870426322*^9}, {3.897547715229493*^9, 
+  3.8975477312826014`*^9}, {3.897548049015549*^9, 3.8975480955004067`*^9}, {
+  3.8975481625173025`*^9, 3.897548165120904*^9}},
+ CellLabel->
+  "In[1284]:=",ExpressionUUID->"4512b186-1c8e-42ee-afb1-50e577d65ebe"]
+},
+WindowSize->{1920, 997},
+WindowMargins->{{1912, Automatic}, {Automatic, -8}},
+FrontEndVersion->"12.0 for Microsoft Windows (64-bit) (April 8, 2019)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 2880, 42, 452, "Text",ExpressionUUID->"a1fa84eb-bf45-4839-b7d6-bd390571985e"],
+Cell[3441, 64, 204, 4, 28, "Input",ExpressionUUID->"97a8c627-8d3d-489c-84b9-10dc8c7489db"],
+Cell[3648, 70, 18677, 537, 1281, "Input",ExpressionUUID->"4512b186-1c8e-42ee-afb1-50e577d65ebe"]
+}
+]
+*)
+
