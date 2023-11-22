@@ -1,4 +1,4 @@
-This repository contains supplementary material for the Article
+This repository contains supplementary material for the following article:
 
 ---
 
@@ -7,6 +7,8 @@ This repository contains supplementary material for the Article
 >M. Petö, M. Gorji, F. Duvigneau, A. Düster, D. Juhre, and S. Eisenträger
 >
 >Computational Mechanics (2023)
+>
+>[https://link.springer.com/article/10.1007/s00466-023-02411-x](https://link.springer.com/article/10.1007/s00466-023-02411-x)
 
 ---
 
