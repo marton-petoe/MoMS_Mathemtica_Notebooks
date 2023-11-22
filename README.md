@@ -1,16 +1,10 @@
 This repository contains supplementary material for the following article:
 
----
-
->**Code Verification of Immersed Boundary Techniques using the Method of Manufactured Solutions**
->
->M. Petö, M. Gorji, F. Duvigneau, A. Düster, D. Juhre, and S. Eisenträger
->
->Computational Mechanics (2023)
->
+>[!NOTE]  
+>**Code Verification of Immersed Boundary Techniques using the Method of Manufactured Solutions**<br>
+>M. Petö, M. Gorji, F. Duvigneau, A. Düster, D. Juhre, and S. Eisenträger<br>
+>Computational Mechanics (2023)<br>
 >[https://link.springer.com/article/10.1007/s00466-023-02411-x](https://link.springer.com/article/10.1007/s00466-023-02411-x)
-
----
 
 The provided Wolfram Mathematica (12.0) notebooks contain the symbolic derivations of the manufactured solutions used in the paper. The table below summarizes which notebook is associated with which sections in the paper. Furthermore, in all the notebooks, comments are given to locate the equations, figures and tables in the article the derived results correspond to. Note that a given notebook can correspond to multiple sections in the article. These notebooks are divided into different parts.
 
