@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     22816,        624]
-NotebookOptionsPosition[     22329,        609]
-NotebookOutlinePosition[     22674,        624]
-CellTagsIndexPosition[     22631,        621]
+NotebookDataLength[     22761,        622]
+NotebookOptionsPosition[     22274,        607]
+NotebookOutlinePosition[     22619,        622]
+CellTagsIndexPosition[     22576,        619]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -497,7 +497,7 @@ Cell[BoxData[
    "\[IndentingNewLine]", "\[IndentingNewLine]", 
    RowBox[{"(*", " ", 
     RowBox[{
-     RowBox[{
+     RowBox[{"--", 
       RowBox[{"--", 
        RowBox[{"--", 
         RowBox[{"--", 
@@ -506,28 +506,26 @@ Cell[BoxData[
            RowBox[{"--", 
             RowBox[{"--", 
              RowBox[{"--", 
-              RowBox[{"--", 
-               RowBox[{"-", 
+              RowBox[{"-", 
+               RowBox[{"--", 
                 RowBox[{"--", 
                  RowBox[{"--", 
                   RowBox[{"--", 
-                   RowBox[{"--", 
-                    RowBox[{"-", "TRAIN"}]}]}]}]}]}]}]}]}]}]}]}]}]}]}], " ", 
-      "ENERGY", " ", 
+                   RowBox[{"-", " ", "STRAIN"}]}]}]}]}]}]}]}]}]}]}]}]}]}]}], 
+     " ", "ENERGY", " ", 
+     RowBox[{
       RowBox[{
-       RowBox[{"DENSITY", " ", "--"}], "--"}]}], "-", 
+       RowBox[{
+        RowBox[{"DENSITY", " ", "--"}], "--"}], "--"}], "--"}], 
      RowBox[{"--", 
-      RowBox[{"-", 
+      RowBox[{"--", 
        RowBox[{"--", 
         RowBox[{"--", 
          RowBox[{"--", 
           RowBox[{"--", 
            RowBox[{"--", 
             RowBox[{"--", 
-             RowBox[{"--", 
-              RowBox[{"--", 
-               RowBox[{"--", 
-                RowBox[{"--", "--"}]}]}]}]}]}]}]}]}]}]}]}]}], " ", "*)"}], 
+             RowBox[{"--", "--"}]}]}]}]}]}]}]}]}]}], " ", "*)"}], 
    "\[IndentingNewLine]", 
    RowBox[{
     RowBox[{
@@ -603,9 +601,9 @@ Cell[BoxData[
   3.8904774915971537`*^9}, {3.891076649101488*^9, 3.891076653813859*^9}, {
   3.891076867772576*^9, 3.891076870426322*^9}, {3.897547715229493*^9, 
   3.8975477312826014`*^9}, {3.897548049015549*^9, 3.8975480955004067`*^9}, {
-  3.8975481625173025`*^9, 3.897548165120904*^9}},
- CellLabel->
-  "In[1284]:=",ExpressionUUID->"4512b186-1c8e-42ee-afb1-50e577d65ebe"]
+  3.8975481625173025`*^9, 3.897548165120904*^9}, {3.924343214920306*^9, 
+  3.9243432171256742`*^9}},ExpressionUUID->"4512b186-1c8e-42ee-afb1-\
+50e577d65ebe"]
 },
 WindowSize->{1920, 997},
 WindowMargins->{{1912, Automatic}, {Automatic, -8}},
@@ -625,7 +623,7 @@ CellTagsIndex->{}
 Notebook[{
 Cell[558, 20, 2880, 42, 452, "Text",ExpressionUUID->"a1fa84eb-bf45-4839-b7d6-bd390571985e"],
 Cell[3441, 64, 204, 4, 28, "Input",ExpressionUUID->"97a8c627-8d3d-489c-84b9-10dc8c7489db"],
-Cell[3648, 70, 18677, 537, 1281, "Input",ExpressionUUID->"4512b186-1c8e-42ee-afb1-50e577d65ebe"]
+Cell[3648, 70, 18622, 535, 1281, "Input",ExpressionUUID->"4512b186-1c8e-42ee-afb1-50e577d65ebe"]
 }
 ]
 *)
