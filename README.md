@@ -1,4 +1,4 @@
-This repository contains supplementary material for the following article:
+This repository contains supplementary material for the following 2 articles:
 
 >[!NOTE]  
 >**Code Verification of Immersed Boundary Techniques using the Method of Manufactured Solutions**<br>
@@ -6,7 +6,13 @@ This repository contains supplementary material for the following article:
 >Computational Mechanics (2023)<br>
 >[https://link.springer.com/article/10.1007/s00466-023-02411-x](https://link.springer.com/article/10.1007/s00466-023-02411-x)
 
-The provided Wolfram Mathematica (12.0) notebooks contain the symbolic derivations of the manufactured solutions used in the paper. The table below summarizes which notebook is associated with which sections in the paper. Furthermore, in all the notebooks, comments are given to locate the equations, figures and tables in the article the derived results correspond to. Note that a given notebook can correspond to multiple sections in the article. These notebooks are divided into different parts.
+>[!NOTE]  
+>**Code verification of non-linear immersed boundary simulations using the method of manufactured solutions**<br>
+>M. Petö, D. Juhre, and S. Eisenträger<br>
+>Computational Mechanics (2023)<br>
+>[https://onlinelibrary.wiley.com/doi/10.1002/pamm.202300068](https://onlinelibrary.wiley.com/doi/10.1002/pamm.202300068)
+
+The provided Wolfram Mathematica (12.0) notebooks contain the symbolic derivations of the manufactured solutions used in these papers. The table below summarizes which notebook is associated with which sections in the 1st paper. Furthermore, in all the notebooks, comments are given to locate the equations, figures and tables in the article the derived results correspond to. Note that a given notebook can correspond to multiple sections in the article. These notebooks are divided into different parts.
 
 ![Scheme](table.PNG)
 
